@@ -1,2 +1,6 @@
-lab*
-!**/lab*.asm
+*
+!.gitignore
+!*.*
+!*/
+lab*.lst
+lab*.o
