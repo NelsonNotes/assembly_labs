@@ -171,11 +171,14 @@ vector<string> scanner(string code) {
 
 int main() {
     string str;
+    clog << "Enter your code:" << endl;
     getline(cin, str);
+    clog << endl;
     vector<string> tokens = scanner(str);
-    // for (int i = 0; i < tokens.size(); i++) {
-    //     clog << i << ": " << tokens[i] << endl;
-    // }
+    for (int i = 0; i < tokens.size(); i++) {
+        clog << "Token #" << i << ": " << tokens[i] << endl;
+    }
+    clog << endl;
     vector<char> result = syntax_analyse(tokens);
     if (result[0] == 'f') {
         clog << "OK!" << endl;

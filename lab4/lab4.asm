@@ -116,7 +116,6 @@ cycleOut1:
  mov rdx, rax 
  mov rax, 1 
  syscall 
-
  pop rcx 
  pop rbx 
 loop cycleOut1 

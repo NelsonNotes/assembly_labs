@@ -1,3 +1,5 @@
-nasm -f elf64 lab5.asm -l lab5.lst
-ld -o lab5 lab5.o
-./lab5
+nasm -f elf64 -o lab5_main.o lab5_main.asm
+g++ -o lab5 lab5_interface.cpp lab5_main.o
+
+# g++ -O0 -c lab5_interface.cpp
+# ghex lab5_interface.o

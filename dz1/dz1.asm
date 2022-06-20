@@ -50,10 +50,13 @@ loop:
 space:
     pop rdx
     pop rcx
+    cmp rdx, 0
+    je skip_fake_word
     mov [letters + rcx*2], rdx
     mov [letters_len], rcx
     inc rcx
     mov rdx, 0
+skip_fake_word:
     inc rdi
     push rcx
     push rdx

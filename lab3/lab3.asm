@@ -7,6 +7,8 @@ section .data ; сегмент инициализированных переме
     len_y equ $-yMsg
     fMsg db "f = "
     len_f equ $-fMsg
+    zDivMsg db "Zero division! Check your x and y values!", 10
+    len_zDivMsg equ $-zDivMsg
 section .bss ;сегмент неинициализированных переменных
     InBuf resb 10
     lenIn equ $-InBuf
@@ -56,7 +58,7 @@ _start:
     jne StrToInt64.Error
     mov [X], RAX
 
-    cmp RAX, 0
+    cmp EAX, 0
     jg skipY
 
     mov RAX, 1
@@ -79,6 +81,8 @@ _start:
     mov AX, [A]
     mov BX, [Y]
     sub BX, [X]
+    cmp BX, 0
+    je error
     idiv BX
     mov [F], AX
     jmp result
@@ -100,11 +104,19 @@ result:
     mov ax, [F]
     cwde
     call IntToStr64 ;lenght in eax, start at [esi]
+
     mov RDI, 1
     mov RDX, RAX
     mov RAX, 1
     syscall
-
-        mov RAX, 60
-        mov RDI, 0
-        syscall
+    jmp end
+error:
+    mov rax, 1 
+    mov rdi, 1 
+    mov rsi, zDivMsg 
+    mov rdx, len_zDivMsg 
+    syscall 
+end:
+    mov RAX, 60
+    mov RDI, 0
+    syscall

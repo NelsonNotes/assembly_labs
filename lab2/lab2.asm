@@ -39,7 +39,7 @@ mov [M], RAX
 
 
 mov RAX, 1
-mov RDI, 1
+mov RDI
 mov RSI, aMsg
 mov RDX, len_a
 syscall
