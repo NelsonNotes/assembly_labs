@@ -55,10 +55,12 @@ enum Lex {
     Semicolon
 };
 
+struct student {};
 
 Lex what_is_it(string cur_token) {
     set<string> types = {"int", "float", "char"};
-    if (cur_token == "unsigned") {
+    set<string> prefixes = {"short", "long", "unsigned"};
+    if (prefixes.count(cur_token)) {
         return TypePrefix;
     } else if (types.count(cur_token)) {
         return TypeDefinition;
@@ -101,7 +103,7 @@ vector<char> syntax_analyse(vector<string> tokens) {
         /* 4 */{'e', 'e', 'e', 'e', 'e', '5', '3', 'e', 'e', 'e', 'e'},
         /* 5 */{'e', 'e', 'e', 'e', 'e', 'e', '3', 'e', 'e', 'e', 'e'},
         /* 6 */{'e', 'e', 'e', '7', 'e', 'e', 'e', 'e', 'e', 'e', 'e'},
-        /* 7 */{'e', 'e', 'e', 'e', 'e', 'e', 'e', 'r', 'e', 'e', 'e'}, // after recursion returns to 8
+        /* 7 */{'e', 'e', 'e', 'e', 'e', 'e', 'e', 'r', 'e', 'e', 'e'},
         /* 8 */{'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', '9', 'e', 'e'},
         /* 9 */{'e', 'e', 'e', '3', 'e', 'e', 'e', 'e', 'e', 'e', 'f'}
     };
@@ -123,9 +125,7 @@ vector<char> syntax_analyse(vector<string> tokens) {
         } else if (cur_state == 'r') {
             while (what_is_it(tokens[i+1]) != RBrace) {
                 vector<string> sub_tokens = slice(tokens, i + 1, tokens.size());
-                clog << "Entering recursion" << endl;
                 result = syntax_analyse(sub_tokens);
-                clog << "Returned from recursion" << endl;
                 i += result[1];
                 if (result[0] != 'f') {
                     return result;

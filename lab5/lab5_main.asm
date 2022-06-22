@@ -1,24 +1,33 @@
 
     section .data
-InMsg db "Called assembly procedure", 10 
-    lenInM equ $-InMsg 
+InMsg db "Вызвана подпрограмма NASM", 10
+    InMsgLen equ $-InMsg
 global _Z7correctPcS_
 extern _Z5PrintPc
-extern _Z4SwapPcS_
     section .text
 _Z7correctPcS_:
-    push RDI
-    push RSI
-    push RDX
+    push rdi
+    push rsi
+    mov rdi, InMsg
+    call _Z5PrintPc
+    pop rdi
+    pop rsi
 
-    mov rax, 1 
-    mov rdi, 1 
-    mov rsi, InMsg 
-    mov rdx, lenInM 
-    syscall; message: "Called assembly procedure"
+    mov rcx, 125
+    mov rax, 0
+cycle:
+    push rcx
+    mov dh, [rdi+rax]
+    mov dl, [rsi+rax]
 
-    pop RDX
-    pop RSI
-    pop RDI  
-    call _Z4SwapPcS_
+    push rax
+    cmp dh, dl
+    pop rax
+    jne skip
+    mov byte[rdi+rax], ' '
+    mov byte[rsi+rax], ' '
+skip:
+    inc rax
+    pop rcx
+loop cycle
     ret
